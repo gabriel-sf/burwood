@@ -440,7 +440,7 @@ class SocialPopup {
 				}
 			}
 			// check if we are viewing a popup, and only show that one (preview mode)
-			$viewing_id = get_queried_object_id();
+			$viewing_id = defined('DOING_AJAX') && isset($_REQUEST['pid']) ? $_REQUEST['pid'] : get_queried_object_id();
 			foreach ( $spu_ids as $spu ) {
 				if (  $spu->ID == $viewing_id ) {
 					$spu_matches = array();
@@ -715,6 +715,8 @@ class SocialPopup {
 	 */
 	function print_boxes(  ) {
 
+		do_action('spu/print_boxes');
+
 		$spu_matches = $this->check_for_matches();
 
 		//if we have matches continue
@@ -761,8 +763,6 @@ class SocialPopup {
 
 	  	if ( empty( $_REQUEST['spu_action'] ) || $_REQUEST['spu_action'] != 'spu_load' )
     		return;
-
-		do_action('spu/print_boxes');
 
 	  	define( 'DOING_AJAX', TRUE );
 

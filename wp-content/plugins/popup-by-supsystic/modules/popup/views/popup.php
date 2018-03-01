@@ -796,7 +796,7 @@ class popupViewPps extends viewPps {
 		  js.src = "//connect.facebook.net/'. utilsPps::getLangCode(). '/sdk.js#xfbml=1&version=v2.5&appId=1612081092370131";
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, \'script\', \'facebook-jssdk\'));</script>';
-		$res .= '<div class="fb-like-box"';
+		$res .= '<div class="fb-page fb_iframe_widget"';
 		$fbLikeOpts = $this->getFbLikeOpts();
 		foreach($fbLikeOpts as $fKey => $fData) {
 			$dataKey = 'data-'. str_replace('_', '-', $fKey);

@@ -249,7 +249,7 @@ var SPU_master = function() {
                         $('#spu-' + id ).html(response);
 
                         // check if an error was returned for m4wp
-                        if( ! $('#spu-' + id ).find('.mc4wp-form-error').length ) {
+                        if( ! $('#spu-' + id ).find('.mc4wp-alert').length ) {
 
                             // give 2 seconds for response
                             setTimeout( function(){
@@ -258,7 +258,7 @@ var SPU_master = function() {
 
                             }, spuvar.seconds_confirmation_close * 1000);
 
-                        }
+                        } 
                     };
                 // Send form by ajax and replace popup with response
                 request(data, url, success_cb, error_cb, 'html');
@@ -269,7 +269,7 @@ var SPU_master = function() {
             });
 
             // CF7 support
-            $('body').on('mailsent.wpcf7', function(){
+            $(document).on('wpcf7mailsent', function(){
                 $box.trigger('spu.form_submitted', [id]);
                 toggleBox(id, false, true );
             });
@@ -453,6 +453,11 @@ var SPU_master = function() {
 				spuCreateCookie( 'spu_box_' + id, true, days );
 			}
             $box.trigger('spu.box_close', [id]);
+			// check for videos inside and destroy it
+			var iframe = $box.find('iframe[src*="vimeo"],iframe[src*="youtube"]');
+			if( iframe && iframe.length ){
+				$box.remove();
+			}
 		} else {
             setTimeout(function(){
                 centerShortcodes($box);

@@ -314,7 +314,7 @@ class popupPps extends modulePps {
 			'sub_sga_id', 'sub_sga_list_id', 'sub_sga_activate_code', 'sub_gr_api_key', 'sub_ac_api_url', 'sub_ac_api_key', 
 			'sub_ac_lists', 'sub_mr_lists', 'sub_gr_api_key', 'sub_gr_lists', 'cycle_day', 'sub_ic_app_id', 'sub_ic_app_user', 'sub_ic_app_pass', 'sub_ic_lists',
 			'sub_ck_api_key', 'sub_mem_acc_id', 'sub_mem_pud_key', 'sub_mem_priv_key', 'sub_4d_name', 'sub_4d_pass', 'sub_ymlp_api_key', 'sub_ymlp_name',
-			'sub_vtig_url', 'sub_vtig_name', 'sub_vtig_key', 'sub_v6_api_key');
+			'sub_vtig_url', 'sub_vtig_name', 'sub_vtig_key', 'sub_v6_api_key', 'sub_dms_api_user', 'sub_dms_api_password');
 		foreach($popups as $i => $p) {
 			if(isset($p['params']['tpl']['anim_key']) && !empty($p['params']['tpl']['anim_key']) && $p['params']['tpl']['anim_key'] != 'none') {
 				$popups[ $i ]['params']['tpl']['anim'] = $this->getView()->getAnimationByKey( $p['params']['tpl']['anim_key'] );

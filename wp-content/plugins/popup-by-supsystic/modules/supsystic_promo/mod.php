@@ -128,6 +128,7 @@ class supsystic_promoPps extends modulePps {
 				'vtiger' => array('label' => __('Vtiger - PRO', PPS_LANG_CODE), 'require_confirm' => false),
 				'ymlp' => array('label' => __('Your Mailing List Provider (Ymlp) - PRO', PPS_LANG_CODE), 'require_confirm' => false),
 				'fourdem' => array('label' => __('4Dem.it - PRO', PPS_LANG_CODE), 'require_confirm' => false),
+				'dotmailer' => array('label' => __('Dotmailer - PRO', PPS_LANG_CODE), 'require_confirm' => false),
 			));
 		}
 		return $subDestList;

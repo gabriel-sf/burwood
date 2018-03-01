@@ -3,7 +3,7 @@
 Plugin Name: GTranslate
 Plugin URI: https://gtranslate.io/?xyz=998
 Description: Makes your website <strong>multilingual</strong> and available to the world using Google Translate. For support visit <a href="https://wordpress.org/support/plugin/gtranslate">GTranslate Support</a>.
-Version: 2.8.32
+Version: 2.8.36
 Author: Translate AI Multilingual Solutions
 Author URI: https://gtranslate.io
 Text Domain: gtranslate
@@ -230,7 +230,6 @@ class GTranslate extends WP_Widget {
     public static function admin_menu() {
         add_options_page(__('GTranslate Options', 'gtranslate'), 'GTranslate', 'administrator', 'gtranslate_options', array('GTranslate', 'options'));
 
-        deactivate_plugins(array('wptranslator/WPTranslator.php', 'translatepress-multilingual/index.php', 'google-language-translator/google-language-translator.php', 'google-website-translator/google-website-translator.php', 'weglot/weglot.php'), true);
     }
 
     public static function options() {
@@ -246,6 +245,14 @@ class GTranslate extends WP_Widget {
 
         wp_enqueue_script('jquery-ui-sortable');
         wp_enqueue_script('jquery-effects-core');
+
+        /* code editor for widget_code textarea
+        if(function_exists('wp_enqueue_code_editor')) {
+            $editor_settings = wp_enqueue_code_editor(array('type' => 'text/html'));
+            if($editor_settings !== false)
+                wp_add_inline_script('code-editor', sprintf('jQuery(function() {wp.codeEditor.initialize("widget_code", %s);});', wp_json_encode($editor_settings)));
+        }
+        */
 
         $site_url = site_url();
         $wp_plugin_url = preg_replace('/^https?:/i', '', plugins_url() . '/gtranslate');
@@ -313,10 +320,12 @@ function RefreshDoWidgetCode() {
         translation_method = 'redirect';
         jQuery('#new_window_option').show();
         jQuery('#url_translation_option').show();
+        jQuery('#hreflang_tags_option').show();
         jQuery('#auto_switch_option').hide();
     } else {
         jQuery('#new_window_option').hide();
         jQuery('#url_translation_option').hide();
+        jQuery('#hreflang_tags_option').hide();
         jQuery('#auto_switch_option').show();
     }
 
@@ -727,14 +736,14 @@ function RefreshDoWidgetCode() {
         } else if(enterprise_version && translation_method == 'redirect' && new_window) {
             widget_code += "function openTab(url) {var form=document.createElement('form');form.method='post';form.action=url;form.target='_blank';document.body.appendChild(form);form.submit();}"+new_line;
             if(analytics)
-                widget_code += "function doGTranslate(lang_pair) {if(lang_pair.value)lang_pair=lang_pair.value;if(lang_pair=='')return;var lang=lang_pair.split('|')[1];if(typeof _gaq!='undefined'){_gaq.push(['_trackEvent', 'GTranslate', lang, location.hostname+location.pathname+location.search]);}else {if(typeof ga!='undefined')ga('send', 'event', 'GTranslate', lang, location.hostname+location.pathname+location.search);}var plang=location.hostname.split('.')[0];if(plang.length !=2 && plang.toLowerCase() != 'zh-cn' && plang.toLowerCase() != 'zh-tw' && plang != 'hmn' && plang != 'haw' && plang != 'ceb')plang='"+default_language+"';openTab(location.protocol+'//'+(lang == '"+default_language+"' ? '' : lang+'.')+location.hostname.replace('www.', '').replace(RegExp('^' + plang + '\\\\\\\\.'), '')+gt_request_uri);}"+new_line;
+                widget_code += "function doGTranslate(lang_pair) {if(lang_pair.value)lang_pair=lang_pair.value;if(lang_pair=='')return;var lang=lang_pair.split('|')[1];if(typeof _gaq!='undefined'){_gaq.push(['_trackEvent', 'GTranslate', lang, location.hostname+location.pathname+location.search]);}else {if(typeof ga!='undefined')ga('send', 'event', 'GTranslate', lang, location.hostname+location.pathname+location.search);}var plang=location.hostname.split('.')[0];if(plang.length !=2 && plang.toLowerCase() != 'zh-cn' && plang.toLowerCase() != 'zh-tw' && plang != 'hmn' && plang != 'haw' && plang != 'ceb')plang='"+default_language+"';openTab(location.protocol+'//'+(lang == '"+default_language+"' ? '' : lang+'.')+location.hostname.replace('www.', '').replace(RegExp('^' + plang + '[.]'), '')+gt_request_uri);}"+new_line;
             else
-                widget_code += "function doGTranslate(lang_pair) {if(lang_pair.value)lang_pair=lang_pair.value;if(lang_pair=='')return;var lang=lang_pair.split('|')[1];var plang=location.hostname.split('.')[0];if(plang.length !=2 && plang.toLowerCase() != 'zh-cn' && plang.toLowerCase() != 'zh-tw' && plang != 'hmn' && plang != 'haw' && plang != 'ceb')plang='"+default_language+"';openTab(location.protocol+'//'+(lang == '"+default_language+"' ? '' : lang+'.')+location.hostname.replace('www.', '').replace(RegExp('^' + plang + '\\\\\\\\.'), '')+gt_request_uri);}"+new_line;
+                widget_code += "function doGTranslate(lang_pair) {if(lang_pair.value)lang_pair=lang_pair.value;if(lang_pair=='')return;var lang=lang_pair.split('|')[1];var plang=location.hostname.split('.')[0];if(plang.length !=2 && plang.toLowerCase() != 'zh-cn' && plang.toLowerCase() != 'zh-tw' && plang != 'hmn' && plang != 'haw' && plang != 'ceb')plang='"+default_language+"';openTab(location.protocol+'//'+(lang == '"+default_language+"' ? '' : lang+'.')+location.hostname.replace('www.', '').replace(RegExp('^' + plang + '[.]'), '')+gt_request_uri);}"+new_line;
         } else if(enterprise_version && translation_method == 'redirect') {
             if(analytics)
-                widget_code += "function doGTranslate(lang_pair) {if(lang_pair.value)lang_pair=lang_pair.value;if(lang_pair=='')return;var lang=lang_pair.split('|')[1];if(typeof _gaq!='undefined'){_gaq.push(['_trackEvent', 'GTranslate', lang, location.hostname+location.pathname+location.search]);}else {if(typeof ga!='undefined')ga('send', 'event', 'GTranslate', lang, location.hostname+location.pathname+location.search);}var plang=location.hostname.split('.')[0];if(plang.length !=2 && plang.toLowerCase() != 'zh-cn' && plang.toLowerCase() != 'zh-tw' && plang != 'hmn' && plang != 'haw' && plang != 'ceb')plang='"+default_language+"';location.href=location.protocol+'//'+(lang == '"+default_language+"' ? '' : lang+'.')+location.hostname.replace('www.', '').replace(RegExp('^' + plang + '\\\\\\\\.'), '')+gt_request_uri;}"+new_line;
+                widget_code += "function doGTranslate(lang_pair) {if(lang_pair.value)lang_pair=lang_pair.value;if(lang_pair=='')return;var lang=lang_pair.split('|')[1];if(typeof _gaq!='undefined'){_gaq.push(['_trackEvent', 'GTranslate', lang, location.hostname+location.pathname+location.search]);}else {if(typeof ga!='undefined')ga('send', 'event', 'GTranslate', lang, location.hostname+location.pathname+location.search);}var plang=location.hostname.split('.')[0];if(plang.length !=2 && plang.toLowerCase() != 'zh-cn' && plang.toLowerCase() != 'zh-tw' && plang != 'hmn' && plang != 'haw' && plang != 'ceb')plang='"+default_language+"';location.href=location.protocol+'//'+(lang == '"+default_language+"' ? '' : lang+'.')+location.hostname.replace('www.', '').replace(RegExp('^' + plang + '[.]'), '')+gt_request_uri;}"+new_line;
             else
-                widget_code += "function doGTranslate(lang_pair) {if(lang_pair.value)lang_pair=lang_pair.value;if(lang_pair=='')return;var lang=lang_pair.split('|')[1];var plang=location.hostname.split('.')[0];if(plang.length !=2 && plang.toLowerCase() != 'zh-cn' && plang.toLowerCase() != 'zh-tw' && plang != 'hmn' && plang != 'haw' && plang != 'ceb')plang='"+default_language+"';location.href=location.protocol+'//'+(lang == '"+default_language+"' ? '' : lang+'.')+location.hostname.replace('www.', '').replace(RegExp('^' + plang + '\\\\\\\\.'), '')+gt_request_uri;}"+new_line;
+                widget_code += "function doGTranslate(lang_pair) {if(lang_pair.value)lang_pair=lang_pair.value;if(lang_pair=='')return;var lang=lang_pair.split('|')[1];var plang=location.hostname.split('.')[0];if(plang.length !=2 && plang.toLowerCase() != 'zh-cn' && plang.toLowerCase() != 'zh-tw' && plang != 'hmn' && plang != 'haw' && plang != 'ceb')plang='"+default_language+"';location.href=location.protocol+'//'+(lang == '"+default_language+"' ? '' : lang+'.')+location.hostname.replace('www.', '').replace(RegExp('^' + plang + '[.]'), '')+gt_request_uri;}"+new_line;
         } else if(translation_method == 'onfly') {
             widget_code += "function GTranslateGetCurrentLang() {var keyValue = document['cookie'].match('(^|;) ?googtrans=([^;]*)(;|$)');return keyValue ? keyValue[2].split('/')[2] : null;}"+new_line;
             widget_code += "function GTranslateFireEvent(element,event){try{if(document.createEventObject){var evt=document.createEventObject();element.fireEvent('on'+event,evt)}else{var evt=document.createEvent('HTMLEvents');evt.initEvent(event,true,true);element.dispatchEvent(evt)}}catch(e){}}"+new_line;
@@ -772,6 +781,7 @@ function ShowWidgetPreview(widget_preview) {
 jQuery('#pro_version').attr('checked', '$pro_version'.length > 0);
 jQuery('#enterprise_version').attr('checked', '$enterprise_version'.length > 0);
 jQuery('#url_translation').attr('checked', '$url_translation'.length > 0);
+jQuery('#add_hreflang_tags').attr('checked', '$add_hreflang_tags'.length > 0);
 jQuery('#new_window').attr('checked', '$new_window'.length > 0);
 jQuery('#show_in_menu').val('$show_in_menu');
 jQuery('#floating_language_selector').val('$floating_language_selector');
@@ -786,6 +796,7 @@ jQuery('#flag_size').val('$flag_size');
 if(jQuery('#pro_version:checked').length || jQuery('#enterprise_version:checked').length) {
     jQuery('#new_window_option').show();
     jQuery('#url_translation_option').show();
+    jQuery('#hreflang_tags_option').show();
     jQuery('#auto_switch_option').hide();
 }
 
@@ -1016,6 +1027,10 @@ EOT;
                     <tr id="url_translation_option" style="display:none;">
                         <td class="option_name"><?php _e('Enable URL Translation', 'gtranslate'); ?>:</td>
                         <td><input id="url_translation" name="url_translation" value="1" type="checkbox"/></td>
+                    </tr>
+                    <tr id="hreflang_tags_option" style="display:none;">
+                        <td class="option_name"><?php _e('Add hreflang tags', 'gtranslate'); ?>:</td>
+                        <td><input id="add_hreflang_tags" name="add_hreflang_tags" value="1" type="checkbox"/></td>
                     </tr>
                     <tr id="new_window_option" style="display:none;">
                         <td class="option_name"><?php _e('Open in new window', 'gtranslate'); ?>:</td>
@@ -1300,6 +1315,7 @@ EOT;
         $data['pro_version'] = isset($_POST['pro_version']) ? intval($_POST['pro_version']) : '';
         $data['enterprise_version'] = isset($_POST['enterprise_version']) ? intval($_POST['enterprise_version']) : '';
         $data['url_translation'] = isset($_POST['url_translation']) ? intval($_POST['url_translation']) : '';
+        $data['add_hreflang_tags'] = isset($_POST['add_hreflang_tags']) ? intval($_POST['add_hreflang_tags']) : '';
         $data['new_window'] = isset($_POST['new_window']) ? intval($_POST['new_window']) : '';
         $data['show_in_menu'] = isset($_POST['show_in_menu']) ? sanitize_text_field($_POST['show_in_menu']) : '';
         $data['floating_language_selector'] = isset($_POST['floating_language_selector']) ? sanitize_text_field($_POST['floating_language_selector']) : 'no';
@@ -1327,6 +1343,7 @@ EOT;
 
         if($data['pro_version']) { // check if rewrite rules are in place
             $htaccess_file = get_home_path() . '.htaccess';
+            // todo: use insert_with_markers functions instead
             if(is_writeable($htaccess_file)) {
                 $htaccess = file_get_contents($htaccess_file);
                 if(strpos($htaccess, 'gtranslate.php') === false) { // no config rules
@@ -1366,6 +1383,7 @@ EOT;
         $data['pro_version'] = isset($data['pro_version']) ? $data['pro_version'] : '';
         $data['enterprise_version'] = isset($data['enterprise_version']) ? $data['enterprise_version'] : '';
         $data['url_translation'] = isset($data['url_translation']) ? $data['url_translation'] : '';
+        $data['add_hreflang_tags'] = isset($data['add_hreflang_tags']) ? $data['add_hreflang_tags'] : '';
         $data['new_window'] = isset($data['new_window']) ? $data['new_window'] : '';
         $data['show_in_menu'] = isset($data['show_in_menu']) ? $data['show_in_menu'] : ((isset($data['show_in_primary_menu']) and $data['show_in_primary_menu'] == 1) ? 'primary' : '');
         $data['floating_language_selector'] = isset($data['floating_language_selector']) ? $data['floating_language_selector'] : 'no';
@@ -1471,7 +1489,7 @@ class GTranslateWidget extends WP_Widget {
 class GTranslate_Notices {
     protected $prefix = 'gtranslate';
     public $notice_spam = 0;
-    public $notice_spam_max = 1;
+    public $notice_spam_max = 3;
 
     // Basic actions to run
     public function __construct() {
@@ -1550,6 +1568,7 @@ class GTranslate_Notices {
                 $admin_display_msg = (isset($admin_notices[$slug]['msg']) ? $admin_notices[$slug]['msg'] : '');
                 $admin_display_title = (isset($admin_notices[$slug]['title']) ? $admin_notices[$slug]['title'] : '');
                 $admin_display_link = (isset($admin_notices[$slug]['link']) ? $admin_notices[$slug]['link'] : '');
+                $admin_display_dismissible= (isset($admin_notices[$slug]['dismissible']) ? $admin_notices[$slug]['dismissible'] : true);
                 $output_css = false;
 
                 // Ensure the notice hasn't been hidden and that the current date is after the start date
@@ -1569,7 +1588,8 @@ class GTranslate_Notices {
                     echo '<ul class="gt-notice-body gt-red">
                           ' . $admin_display_link . '
                         </ul>';
-                    echo '<a href="' . $query_str . '" class="dashicons dashicons-dismiss"></a>';
+                    if($admin_display_dismissible)
+                        echo '<a href="' . $query_str . '" class="dashicons dashicons-dismiss"></a>';
                     echo '</div>';
 
                     $this->notice_spam += 1;
@@ -1674,6 +1694,21 @@ class GTranslate_Notices {
     }
 
     public function gt_admin_notices() {
+
+        $deactivate_plugins= array('WP Translator' => 'wptranslator/WPTranslator.php', 'TranslatePress' => 'translatepress-multilingual/index.php', 'Google Language Translator' => 'google-language-translator/google-language-translator.php', 'Google Website Translator' => 'google-website-translator/google-website-translator.php', 'Weglot' => 'weglot/weglot.php');
+        foreach($deactivate_plugins as $name => $plugin_file) {
+            if(is_plugin_active($plugin_file)) {
+                $deactivate_link = wp_nonce_url('plugins.php?action=deactivate&amp;plugin='.urlencode($plugin_file ).'&amp;plugin_status=all&amp;paged=1&amp;s=', 'deactivate-plugin_' . $plugin_file);
+                $notices['deactivate_plugin_'.strtolower(str_replace(' ', '', $name))] = array(
+                    'title' => sprintf(__('Please deactivate %s plugin', 'gtranslate'), $name),
+                    'msg' => sprintf(__('%s plugin causes conflicts with GTranslate.', 'gtranslate'), $name),
+                    'link' => '<li><span class="dashicons dashicons-dismiss"></span><a href="'.$deactivate_link.'">' . sprintf(__('Deactivate %s plugin', 'gtranslate'), $name) . '</a></li>',
+                    'dismissible' => false,
+                    'int' => 0
+                );
+            }
+        }
+
         /*
         $one_week_support = esc_url(add_query_arg(array($this->prefix . '_admin_notice_ignore' => 'one_week_support')));
 
@@ -1698,7 +1733,7 @@ class GTranslate_Notices {
                       '<li><span class="dashicons dashicons-calendar-alt"></span><a href="' . $two_week_review_temp . '">' . __('Maybe later', 'gtranslate') . '</a></li>' .
                       '<li><span class="dashicons dashicons-dismiss"></span><a href="' . $two_week_review_ignore . '">' . __('Never show again', 'gtranslate') . '</a></li>',
             'later_link' => $two_week_review_temp,
-            'int' => 3
+            'int' => 5
         );
 
         $data = get_option('GTranslate');
@@ -1715,7 +1750,7 @@ class GTranslate_Notices {
                           '<li><span class="dashicons dashicons-calendar-alt"></span><a href="' . $upgrade_tips_temp . '">' . __('Maybe later', 'gtranslate') . '</a></li>' .
                           '<li><span class="dashicons dashicons-dismiss"></span><a href="' . $upgrade_tips_ignore . '">' . __('Never show again', 'gtranslate') . '</a></li>',
                 'later_link' => $upgrade_tips_temp,
-                'int' => 5
+                'int' => 2
             );
 
             $notices['upgrade_tips'][] = array(
@@ -1725,7 +1760,7 @@ class GTranslate_Notices {
                           '<li><span class="dashicons dashicons-calendar-alt"></span><a href="' . $upgrade_tips_temp . '">' . __('Maybe later', 'gtranslate') . '</a></li>' .
                           '<li><span class="dashicons dashicons-dismiss"></span><a href="' . $upgrade_tips_ignore . '">' . __('Never show again', 'gtranslate') . '</a></li>',
                 'later_link' => $upgrade_tips_temp,
-                'int' => 5
+                'int' => 2
             );
 
             $notices['upgrade_tips'][] = array(
@@ -1735,7 +1770,7 @@ class GTranslate_Notices {
                           '<li><span class="dashicons dashicons-calendar-alt"></span><a href="' . $upgrade_tips_temp . '">' . __('Maybe later', 'gtranslate') . '</a></li>' .
                           '<li><span class="dashicons dashicons-dismiss"></span><a href="' . $upgrade_tips_ignore . '">' . __('Never show again', 'gtranslate') . '</a></li>',
                 'later_link' => $upgrade_tips_temp,
-                'int' => 5
+                'int' => 2
             );
 
             $notices['upgrade_tips'][] = array(
@@ -1745,7 +1780,7 @@ class GTranslate_Notices {
                           '<li><span class="dashicons dashicons-calendar-alt"></span><a href="' . $upgrade_tips_temp . '">' . __('Maybe later', 'gtranslate') . '</a></li>' .
                           '<li><span class="dashicons dashicons-dismiss"></span><a href="' . $upgrade_tips_ignore . '">' . __('Never show again', 'gtranslate') . '</a></li>',
                 'later_link' => $upgrade_tips_temp,
-                'int' => 5
+                'int' => 2
             );
 
             $notices['upgrade_tips'][] = array(
@@ -1755,7 +1790,7 @@ class GTranslate_Notices {
                           '<li><span class="dashicons dashicons-calendar-alt"></span><a href="' . $upgrade_tips_temp . '">' . __('Maybe later', 'gtranslate') . '</a></li>' .
                           '<li><span class="dashicons dashicons-dismiss"></span><a href="' . $upgrade_tips_ignore . '">' . __('Never show again', 'gtranslate') . '</a></li>',
                 'later_link' => $upgrade_tips_temp,
-                'int' => 5
+                'int' => 2
             );
 
             shuffle($notices['upgrade_tips']);
@@ -1791,7 +1826,14 @@ if($data['pro_version']) { // gtranslate redirect rules with PHP (for environmen
         exit;
     } // #2 add trailing slash
 
-    if(preg_match('/^\/(af|sq|am|ar|hy|az|eu|be|bn|bs|bg|ca|ceb|ny|zh-CN|zh-TW|co|hr|cs|da|nl|en|eo|et|tl|fi|fr|fy|gl|ka|de|el|gu|ht|ha|haw|iw|hi|hmn|hu|is|ig|id|ga|it|ja|jw|kn|kk|km|ko|ku|ky|lo|la|lv|lt|lb|mk|mg|ms|ml|mt|mi|mr|mn|my|ne|no|ps|fa|pl|pt|pa|ro|ru|sm|gd|sr|st|sn|sd|si|sk|sl|so|es|su|sw|sv|tg|ta|te|th|tr|uk|ur|uz|vi|cy|xh|yi|yo|zu)\/(.*)/', $request_uri, $matches)) {
+    if($data['widget_look'] == 'flags' or $data['widget_look'] == 'dropdown_with_flags' or $data['widget_look'] == 'flags_name' or $data['widget_look'] == 'flags_code' or $data['widget_look'] == 'popup')
+        $allowed_languages = $data['fincl_langs'];
+    elseif($data['widget_look'] == 'flags_dropdown')
+        $allowed_languages = array_values(array_unique(array_merge($data['fincl_langs'], $data['incl_langs'])));
+    else
+        $allowed_languages = $data['incl_langs'];
+    $allowed_languages = implode('|', $allowed_languages); // ex: en|ru|it|de
+    if(preg_match('/^\/('.$allowed_languages.')\/(.*)/', $request_uri, $matches)) {
         $_GET['glang'] = $matches[1];
         $_GET['gurl'] = rawurldecode($matches[2]);
 
@@ -1892,5 +1934,42 @@ if($data['url_translation'] and ($data['pro_version'] or $data['enterprise_versi
     add_action('wp_head', 'gtranslate_url_translation_meta', 1);
     function gtranslate_url_translation_meta() {
         echo '<meta name="uri-translation" content="on" />';
+    }
+}
+
+if($data['add_hreflang_tags'] and ($data['pro_version'] or $data['enterprise_version'])) {
+    add_action('wp_head', 'gtranslate_add_hreflang_tags', 1);
+    function gtranslate_add_hreflang_tags() {
+        $data = get_option('GTranslate');
+        GTranslate::load_defaults($data);
+
+        $enabled_languages = array();
+        if($data['widget_look'] == 'flags' or $data['widget_look'] == 'dropdown_with_flags' or $data['widget_look'] == 'flags_name' or $data['widget_look'] == 'flags_code' or $data['widget_look'] == 'popup')
+            $enabled_languages = $data['fincl_langs'];
+        elseif($data['widget_look'] == 'flags_dropdown')
+            $enabled_languages = array_values(array_unique(array_merge($data['fincl_langs'], $data['incl_langs'])));
+        else
+            $enabled_languages = $data['incl_langs'];
+
+        $current_url = wp_get_canonical_url();
+
+        if($current_url !== false) {
+            // adding default language
+            echo '<link rel="alternate" hreflang="'.$data['default_language'].'" href="'.$current_url.'" />'."\n";
+
+            // adding enabled languages
+            foreach($enabled_languages as $lang) {
+                $href = '';
+                $domain = str_replace('www.', '', $_SERVER['HTTP_HOST']);
+
+                if($data['enterprise_version'])
+                    $href = str_ireplace('://' . $domain, '://' . $lang . '.' . $domain, $current_url);
+                elseif($data['pro_version'])
+                    $href = str_ireplace('://' . $domain, '://' . $domain . '/' . $lang, $current_url);
+
+                if(!empty($href) and $lang != $data['default_language'])
+                    echo '<link rel="alternate" hreflang="'.$lang.'" href="'.$href.'" />'."\n";
+            }
+        }
     }
 }

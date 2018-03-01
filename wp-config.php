@@ -2,6 +2,7 @@
 /** Enable W3 Total Cache */
 define('WP_CACHE', true); // Added by W3 Total Cache
 
+
 /**
  * The base configuration for WordPress
  *
@@ -23,16 +24,16 @@ define('WP_CACHE', true); // Added by W3 Total Cache
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'burwood_dev');
+define('DB_NAME', 'burwood_prd');
 
 /** MySQL database username */
-define('DB_USER', 'burwood_dev');
+define('DB_USER', 'burwood_prd');
 
 /** MySQL database password */
-define('DB_PASSWORD', '21n4IvKIBG');
+define('DB_PASSWORD', 'YEWtc6FfxK');
 
 /** MySQL hostname */
-define('DB_HOST', 'prd-saltandfuessel.clztkvwc7xws.ap-southeast-2.rds.amazonaws.com');
+define('DB_HOST', '127.0.0.1');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');

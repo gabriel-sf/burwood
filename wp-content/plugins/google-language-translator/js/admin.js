@@ -1,43 +1,9 @@
 jQuery(document).ready(function($){
   var language_display = $('input[name=googlelanguagetranslator_language_option]:checked').val();
-  
-  if ( language_display == 'all') {
-    $('.languages').css('display','none');
-    $('.choose_flags').css('display','none');
-  } else if (language_display == 'specific') {
-    $('.choose_flags_intro').css('display','none');
-    $('.choose_flags').css('display','none');
-  }
-	
   var display = $('select[name=googlelanguagetranslator_display] option:selected').val();
-
-  $('input[name=googlelanguagetranslator_language_option]').change(function(){
-    if( $(this).val() == 'all'){
-      $('.languages').fadeOut("slow");
-      $('.choose_flags_intro').css('display','');
-      var flag_display = $('input[name=googlelanguagetranslator_flags]:checked').val();
-      if ( flag_display == 'show_flags') {
-        $('.choose_flags').css('display','');
-      }
-    } else if ($(this).val() == 'specific') {
-      $('.languages').fadeIn("slow");
-      $('.choose_flags_intro').css('display','none');
-      $('.choose_flags').css('display','none');
-    }
-  });
-      
-  var language_display = $('input[name=googlelanguagetranslator_language_option]:checked').val();    
   var flag_display = $('input[name=googlelanguagetranslator_flags]:checked').val();
   var floating_widget_display = $('select[name=googlelanguagetranslator_floating_widget] option:selected').val();
-
-  if ( flag_display == 'hide_flags') {
-    $('.choose_flags').css('display','none');
-  } else if (flag_display == 'show_flags') {
-    if ( language_display == 'all') {
-      $('.choose_flags').css('display','');
-    }
-  }
-
+  
   if(floating_widget_display == 'yes') {
     $('.floating_widget_text').css('display','');
   } else {

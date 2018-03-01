@@ -349,6 +349,23 @@
 		</label>
 	</td>
 </tr>
+<?php if(in_array($this->popup['type'], array(PPS_IFRAME))) {?>
+<tr>
+	<th scope="row" class="col-w-1perc">
+		<?php _e('Display only selector', PPS_LANG_CODE)?>
+		<i class="fa fa-question supsystic-tooltip" title="<?php echo esc_html(__('You can leave only required part of your iFrame PopUp by entering here CSS selector of this part. Do not use this option if you don\'t understad basics of CSS and HTML. Also please note that you can use this only if your iframe url have same domain that your - due to permissions of html iframe.', PPS_LANG_CODE))?>"></i>
+		<?php if(!$this->isPro) {?>
+			<span class="ppsProOptMiniLabel"><a target="_blank" href="<?php echo $this->mainLink. '?utm_source=plugin&utm_medium=iframe_display_only&utm_campaign=popup';?>"><?php _e('PRO option', PPS_LANG_CODE)?></a></span>
+		<?php }?>
+	</th>
+	<td colspan="4">
+		<?php echo htmlPps::text('params[tpl][iframe_display_only]', array(
+			'value' => (isset($this->popup['params']['tpl']['iframe_display_only']) ? $this->popup['params']['tpl']['iframe_display_only'] : ''),
+			'attrs' => 'placeholder="#some-content-element" style="width: 100%;" class="ppsProOpt"',
+		))?>
+	</td>
+</tr>
+<?php }?>
 <tr>
 	<th scope="row" class="col-w-1perc">
 		<?php _e('Close button', PPS_LANG_CODE)?>

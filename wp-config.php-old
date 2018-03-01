@@ -1,0 +1,129 @@
+<?php
+# Database Configuration
+define( 'DB_NAME', 'burwood_prd' );
+define( 'DB_USER', 'burwood_prd' );
+define( 'DB_PASSWORD', 'YEWtc6FfxK' );
+define( 'DB_HOST', 'prd-saltandfuessel.clztkvwc7xws.ap-southeast-2.rds.amazonaws.com' );
+
+define('DB_CHARSET', 'utf8');
+define('DB_COLLATE', 'utf8_unicode_ci');
+$table_prefix = '2_wp_';
+
+# Security Salts, Keys, Etc
+define('AUTH_KEY',         'z;8hJIeNbKC _f5w5%~9Om0B:po1s(./U%Do?|;X121:v;lrF+0H=NP=A+dY&[*e');
+define('SECURE_AUTH_KEY',  'ZOkUO&(^zP-,Bw$F_E9>400WN|Ng0PhSI8fhwlV8=9jP]xDi MP}7(1A>uFWd+&X');
+define('LOGGED_IN_KEY',    '[5f9;k/HZ/Lk2Yr 8U24fFx%S];r=>[~goD|t?JS+3?8#g(Gj~qV^z5qP:&{WY6.');
+define('NONCE_KEY',        'Zb>X7[k[#[{3)@ZVLMsneS)J +|BCK,*0JCBez>}kg2k6MZ.1x@!5?]srjI0H3 r');
+define('AUTH_SALT',        '(GKDE2pi8ALh|6a+lf`Y^cS,-Z)QOqY; &Q!d{@4>tArU$7*@Dw@rpE=r/5+uzDA');
+define('SECURE_AUTH_SALT', '2c|Z:;;JyD0d]Kip}35zx3<Pyu!TA{xxf.)!odUN vVkIr89p iKo02WwM1FX|F&');
+define('LOGGED_IN_SALT',   'Sh^FW^^Ww}x-OIZ2Br7=NAa/S|+36#>6+M2$Ui/d.L{P!1.$v- 5IS|tcH=tJez&');
+define('NONCE_SALT',       '7[KoZq)rC<w^dD0j<~)f+Bire~@xf6-?=N5`qc/{ZaG3<1R;rJOK]zP36{=!q9X*');
+
+
+# Localized Language Stuff
+
+define( 'WP_CACHE', TRUE );
+
+define( 'WP_AUTO_UPDATE_CORE', false );
+
+define( 'PWP_NAME', 'burwoodhealth' );
+
+define( 'FS_METHOD', 'direct' );
+
+define( 'FS_CHMOD_DIR', 0775 );
+
+define( 'FS_CHMOD_FILE', 0664 );
+
+define( 'PWP_ROOT_DIR', '/nas/wp' );
+
+define( 'WPE_APIKEY', 'd003351f660b753151275ce9b245f0fd08811577' );
+
+define( 'WPE_CLUSTER_ID', '101415' );
+
+define( 'WPE_CLUSTER_TYPE', 'pod' );
+
+define( 'WPE_ISP', true );
+
+define( 'WPE_BPOD', false );
+
+define( 'WPE_RO_FILESYSTEM', false );
+
+define( 'WPE_LARGEFS_BUCKET', 'largefs.wpengine' );
+
+define( 'WPE_SFTP_PORT', 2222 );
+
+define( 'WPE_LBMASTER_IP', '' );
+
+define( 'WPE_CDN_DISABLE_ALLOWED', true );
+
+define( 'DISALLOW_FILE_MODS', FALSE );
+
+define( 'DISALLOW_FILE_EDIT', FALSE );
+
+define( 'DISABLE_WP_CRON', false );
+
+define( 'WPE_FORCE_SSL_LOGIN', false );
+
+define( 'FORCE_SSL_LOGIN', false );
+
+/*SSLSTART*/ if ( isset($_SERVER['HTTP_X_WPE_SSL']) && $_SERVER['HTTP_X_WPE_SSL'] ) $_SERVER['HTTPS'] = 'on'; /*SSLEND*/
+
+define( 'WPE_EXTERNAL_URL', false );
+
+define( 'WP_POST_REVISIONS', FALSE );
+
+define( 'WPE_WHITELABEL', 'wpengine' );
+
+define( 'WP_TURN_OFF_ADMIN_BAR', false );
+
+define( 'WPE_BETA_TESTER', false );
+
+umask(0002);
+
+$wpe_cdn_uris=array ( );
+
+$wpe_no_cdn_uris=array ( );
+
+$wpe_content_regexs=array ( );
+
+$wpe_all_domains=array ( 0 => 'burwoodhealthcare.com.au', 1 => 'burwoodhealth.wpengine.com', 2 => 'www.burwoodhealthcare.com.au', );
+
+$wpe_varnish_servers=array ( 0 => 'pod-101415', );
+
+$wpe_special_ips=array ( 0 => '35.197.173.242', );
+
+$wpe_ec_servers=array ( );
+
+$wpe_largefs=array ( );
+
+$wpe_netdna_domains=array ( );
+
+$wpe_netdna_domains_secure=array ( );
+
+$wpe_netdna_push_domains=array ( );
+
+$wpe_domain_mappings=array ( );
+
+$memcached_servers=array ( );
+
+
+# WP Engine ID
+
+
+# WP Engine Settings
+
+
+
+
+
+
+define('WP_DEBUG', false);
+define('WP_ALLOW_MULTISITE', true);
+
+
+# That's It. Pencils down
+if ( !defined('ABSPATH') )
+	define('ABSPATH', dirname(__FILE__) . '/');
+require_once(ABSPATH . 'wp-settings.php');
+
+$_wpe_preamble_path = null; if(false){}

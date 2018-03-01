@@ -65,6 +65,7 @@ class framePps {
     protected function _extractModules() {
         $activeModules = $this->getTable('modules')
                 ->innerJoin( $this->getTable('modules_type'), 'type_id' )
+				->orderBy('id ASC')
                 ->get($this->getTable('modules')->alias(). '.*, '. $this->getTable('modules_type')->alias(). '.label as type_name');
         if($activeModules) {
             foreach($activeModules as $m) {

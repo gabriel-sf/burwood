@@ -245,6 +245,7 @@
 				'vtiger' => array('label' => __('Vtiger', PPS_LANG_CODE)),
 				'ymlp' => array('label' => __('Your Mailing List Provider (Ymlp)', PPS_LANG_CODE)),
 				'fourdem' => array('label' => __('4Dem.it', PPS_LANG_CODE)),
+				'dotmailer' => array('label' => __('Dotmailer', PPS_LANG_CODE)),
 			);
 		?>
 		<script type="text/javascript">

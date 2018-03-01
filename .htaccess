@@ -1,7 +1,7 @@
-AuthType Basic
-AuthName "Restricted Content"
-AuthUserFile "/etc/passwords/.htpasswd"
-Require valid-user
+#AuthType Basic
+#AuthName "Restricted Content"
+#AuthUserFile "/etc/passwords/.htpasswd"
+#Require valid-user
 # BEGIN W3TC Browser Cache
 <IfModule mod_deflate.c>
         AddOutputFilterByType DEFLATE text/css text/x-component application/x-javascript application/javascript text/javascript text/x-js text/html text/richtext image/svg+xml text/plain text/xsd text/xsl text/xml image/bmp application/java application/msword application/vnd.ms-fontobject application/x-msdownload image/x-icon image/webp application/json application/vnd.ms-access application/vnd.ms-project application/x-font-otf application/vnd.ms-opentype application/vnd.oasis.opendocument.database application/vnd.oasis.opendocument.chart application/vnd.oasis.opendocument.formula application/vnd.oasis.opendocument.graphics application/vnd.oasis.opendocument.presentation application/vnd.oasis.opendocument.spreadsheet application/vnd.oasis.opendocument.text audio/ogg application/pdf application/vnd.ms-powerpoint image/svg+xml application/x-shockwave-flash image/tiff application/x-font-ttf application/vnd.ms-opentype audio/wav application/vnd.ms-write application/font-woff application/font-woff2 application/vnd.ms-excel
@@ -25,6 +25,11 @@ Require valid-user
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
+RewriteRule ^contact-burwood-medical-clinic.html$ /contact-burwood-medical-clinic/ [L,R=301]
+RewriteRule ^physiotherapy.html$ /physiotherapy/ [L,R=301]
+RewriteRule ^pricing.html$ /fee-schedule/ [L,R=301]
+RewriteRule ^psychology.html$ /psychology/ [L,R=301]
+RewriteRule ^vacancies.html$ /vacancies/ [L,R=301]
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
